@@ -1,10 +1,5 @@
-FROM lsiobase/mono
-MAINTAINER sparklyballs
-
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
+FROM resin/rpi-raspbian
+MAINTAINER keltakmaster
 
 # environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -13,9 +8,11 @@ XDG_CONFIG_HOME="/config"
 
 # install jackett
 RUN \
+ apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
+ echo "deb http://download.mono-project.com/repo/debian jessie main" | tee /etc/apt/sources.list.d/mono-official.list && \
  apt-get update && \
  apt-get install -y \
-	wget && \
+	wget mono-devel libcurl4-openssl-dev && \
  mkdir -p \
 	/app/Jackett && \
  jack_tag=$(curl -sX GET "https://api.github.com/repos/Jackett/Jackett/releases/latest" \
