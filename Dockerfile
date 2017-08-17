@@ -17,7 +17,7 @@ RUN \
 	https://github.com/Jackett/Jackett/releases/download/$jack_tag/Jackett.Binaries.Mono.tar.gz && \
  tar xf \
  /tmp/jacket.tar.gz -C \
-	/app/Jackett --strip-components=1 && \
+	/app/Jackett --strip-components=1
 
 # add local files
 COPY root/ /
