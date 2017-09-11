@@ -12,7 +12,7 @@ RUN \
 	/app/Jackett && \
  curl -o \
  /tmp/jacket.tar.gz -L \
-	https://github.com/Jackett/Jackett/releases/download/v0.8.59/Jackett.Binaries.Mono.tar.gz && \
+	https://github.com/Jackett/Jackett/releases/download/v0.8.175/Jackett.Binaries.Mono.tar.gz && \
  tar xf \
  /tmp/jacket.tar.gz -C \
 	/app/Jackett --strip-components=1
