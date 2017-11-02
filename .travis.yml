@@ -1,0 +1,20 @@
+sudo: required
+services:
+- docker
+language: bash
+script:
+# prepare qemu
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+# build image
+- docker build -t kdautrey/rpi-jackett .
+# test image
+- docker run --entrypoint "which" kdautrey/rpi-jackett mono
+# push image
+- >
+  if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    TAG=$(curl -sX GET "https://api.github.com/repos/Jackett/Jackett/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]')
+    docker tag kdautrey/rpi-jackett kdautrey/rpi-jackett:$TAG
+    docker push kdautrey/rpi-jackett:$TAG
+    docker push kdautrey/rpi-jackett
+  fi
